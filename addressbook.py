@@ -8,6 +8,17 @@ class AddressBook(UserDict):
         self.serializer = serializer
         self.file = 'Phone_Book.bin' if isinstance(serializer, PickleSerializer) else 'Phone_Book.json'
 
+    def save(self):
+        self.serializer.serialize(self.data, self.file)
+
+    def load(self):
+        self.data = self.serializer.deserialize(self.file)
+        for name, rec in self.data.items():
+            phones = [Phone(p['value']) for p in rec['phones']]
+            birthday = Birthday(rec['birthday']['value']) if rec.get('birthday') else None
+            self.data[name] = Record(name, phones, birthday)
+
+
     def add_record(self, record: Record):
         self.data[record.name.value] = record
 
@@ -41,23 +52,9 @@ class AddressBook(UserDict):
                 counter = 0
                 result = ''
         yield result
-
-    def save(self):
-        self.serializer.serialize(self.data, self.file)
-
-    def load(self):
-        self.data = self.serializer.deserialize(self.file)
-        for name, rec in self.data.items():
-            phones = [Phone(p['value']) for p in rec['phones']]
-            birthday = Birthday(rec['birthday']['value']) if rec.get('birthday') else None
-            self.data[name] = Record(name, phones, birthday)
-            
-            
-    def write_to_file(self):
-        with open(self.file, 'wb') as file:
-            pickle.dump(self.data, file)
+     
+   def write_to_file(self):
+        self.save()
             
     def read_from_file(self):
-        with open(self.file, 'rb') as file:
-            self.data = pickle.load(file)
-            return self.data
+        self.load()
