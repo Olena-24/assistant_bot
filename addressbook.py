@@ -51,3 +51,13 @@ class AddressBook(UserDict):
             phones = [Phone(p['value']) for p in rec['phones']]
             birthday = Birthday(rec['birthday']['value']) if rec.get('birthday') else None
             self.data[name] = Record(name, phones, birthday)
+            
+            
+    def write_to_file(self):
+        with open(self.file, 'wb') as file:
+            pickle.dump(self.data, file)
+            
+    def read_from_file(self):
+        with open(self.file, 'rb') as file:
+            self.data = pickle.load(file)
+            return self.data
