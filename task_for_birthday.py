@@ -1,162 +1,113 @@
-from collections import UserDict, defaultdict
+from collections import defaultdict
 from datetime import date, datetime, timedelta
-from contact_book import AssistantBot, AddressBook, Record, Name, Phone, Birthday
 from rich.console import Console
 from rich.table import Table
-
+from addressbook import AddressBook
+from record import Record, Phone, Birthday
 
 console = Console()
+assistant_bot = AssistantBot()
 
-# список имен у кого день рождения на указанною дату
 def birthdays_for_date(day):
-    date = datetime.strptime(day, '%Y.%m.%d').date()
-    assistent_bot = AssistantBot()
-    date_today = date.today()             
+    date_obj = datetime.strptime(day, '%Y.%m.%d').date()
     contact_birth = []
-    for n, rec in assistent_bot.phone_book.data.items():
-        name = n
+    for name, rec in assistant_bot.phone_book.data.items():
         if rec.birthday:
-            birth = rec.birthday.value.replace(year=date_today.year)
-            if birth == date:
+            birth = rec.birthday.value.replace(year=date_obj.year)
+            if birth == date_obj:
                 contact_birth.append(name)
-        
-    if len(contact_birth) == 0:
-        print(f'\033[38;2;10;235;190mNo Birthday this day.\033[0m')
-        return None
     return contact_birth
 
-# Displaying birthdays for the current date
 def birthdays_for_date_menu():
-    assistent_bot = AssistantBot()
-    table = Table(title="Birthdays information", style="cyan", title_style="bold magenta", width = 100)
+    table = Table(title="Birthdays information", style="cyan", title_style="bold magenta", width=100)
     table.add_column("Name", style="red", justify="center")
-    today_data = datetime.today().date()
-    today_data_str = today_data.strftime('%Y.%m.%d')
-    if not assistent_bot.phone_book:
-        print(f'\033[91mNo contacts.\033[0m')
-        return
-    else:
-        birth = birthdays_for_date(today_data_str)
-        if birth:
-            s = ''
-            for el in birth:
-                s += '| ' + el + ' |'
-            table.add_row(s)
-            console.print(table)
+    today_data_str = datetime.today().date().strftime('%Y.%m.%d')
 
-# список имен у кого дни рождения на неделю от сегоднешней даты
-# {'Monday': ['Masha'], 'Tuesday': ['Pavel'], 'Wednesday': ['Stiv']}
+    if not assistant_bot.phone_book:
+        console.print("[red]No contacts.[/red]")
+        return
+
+    birth = birthdays_for_date(today_data_str)
+    if birth:
+        names = " | ".join(birth)
+        table.add_row(names)
+        console.print(table)
+    else:
+        console.print("[yellow]No birthdays today.[/yellow]")
+
 def get_birthdays_per_week():
-    assistent_bot = AssistantBot()
-    date_today = date.today()          
-    birthday_per_week = []
-    for n, rec in assistent_bot.phone_book.data.items():
-        name = n
+    date_today = date.today()
+    birthday_per_week = defaultdict(list)
+    for name, rec in assistant_bot.phone_book.data.items():
         if rec.birthday:
             birth = rec.birthday.value.replace(year=date_today.year)
             if birth < date_today - timedelta(days=1):
                 birth = birth.replace(year=date_today.year+1)
-            day_week = birth.isoweekday()
-            end_date = date_today + timedelta(days=7)
-            if date_today <= birth <= end_date:
-                birthday_per_week.append([name, birth, day_week])
-    if len(birthday_per_week) == 0:
-        print(f'\033[38;2;10;235;190mNo Birthday this week.\033[0m')
-        return None
-    users = defaultdict(list)
-    for item in birthday_per_week:
-        if item[2] == 1 or item[2] == 6 or item[2] == 7:
-            users['Monday'].append(item[0])
-        if item[2] == 2:
-            users['Tuesday'].append(item[0])   
-        if item[2] == 3:
-            users['Wednesday'].append(item[0])
-        if item[2] == 4:
-            users['Thursday'].append(item[0])
-        if item[2] == 5:
-            users['Friday'].append(item[0])
-        if item[2] == 6:
-            users['Satturday'].append(item[0])
-        if item[2] == 7:
-            users['Sunday'].append(item[0])
-    return {key: value for key, value in users.items() if value} 
+            day_week = birth.strftime("%A")
+            if date_today <= birth <= date_today + timedelta(days=7):
+                birthday_per_week[day_week].append(name)
+    return birthday_per_week
 
-# List of birthdays this week
 def get_birthdays_per_week_menu():
-    assistent_bot = AssistantBot()
-    table = Table(title="Birthdays information", style="cyan", title_style="bold magenta", width = 100)
+    table = Table(title="Birthdays information", style="cyan", title_style="bold magenta", width=100)
     table.add_column("Day of the week", style="red", justify="center")
     table.add_column("Names", style="bold blue", justify="center")
-    if not assistent_bot.phone_book:
-        print(f'\033[91mNo contacts.\033[0m')
+
+    if not assistant_bot.phone_book:
+        console.print("[red]No contacts.[/red]")
         return
+
     birthdays = get_birthdays_per_week()
     if birthdays:
-        for k, v in birthdays.items():
-            v_1 = ', '.join(p for p in v)
-            table.add_row(k, v_1)
+        for day, names in birthdays.items():
+            names_str = ', '.join(names)
+            table.add_row(day, names_str)
         console.print(table)
+    else:
+        console.print("[yellow]No birthdays this week.[/yellow]")
 
-
-# виводити список контактів, у яких день народження через задану кількість днів від поточної дати
-def birthday_in_given_days(value):
-    assistent_bot = AssistantBot()
+def birthday_in_given_days(days):
     date_today = date.today()
-    date_value = date_today + timedelta(days=value) 
-    print(date_value)        
+    target_date = date_today + timedelta(days=days)
     contact_birth = []
-    for n, rec in assistent_bot.phone_book.data.items():
-        name = n
+    for name, rec in assistant_bot.phone_book.data.items():
         if rec.birthday:
             birth = rec.birthday.value.replace(year=date_today.year)
-            if birth < date_today - timedelta(days=1):
+            if birth < date_today:
                 birth = birth.replace(year=date_today.year+1)
-            if date_today <=  birth <= date_value:
-                contact_birth.append(f'{name}; {rec.birthday.value}; {rec.days_to_birthday()}')
-
-    if len(contact_birth) == 0:
-        print(f'\033[38;2;10;235;190mNo Birthday during this period.\033[0m')
-        return None
-    
+            if date_today <= birth <= target_date:
+                contact_birth.append(f'{name}; {rec.birthday.value}; {(birth - date_today).days}')
     return contact_birth
 
-# Displaying birthdays for a number of days
 def birthday_in_given_days_menu():
-    assistent_bot = AssistantBot()
-    table = Table(title="Birthdays information", style="cyan", title_style="bold magenta", width = 100)
+    table = Table(title="Birthdays information", style="cyan", title_style="bold magenta", width=100)
     table.add_column("Name", style="red", justify="center")
     table.add_column("Date of birth", style="bold blue", justify="center")
-    table.add_column("Day to birthday", style="bold blue", justify="center")
-    if not assistent_bot.phone_book:
-        print(f'\033[91mNo contacts.\033[0m')
+    table.add_column("Days to birthday", style="bold blue", justify="center")
+
+    if not assistant_bot.phone_book:
+        console.print("[red]No contacts.[/red]")
         return
+
     while True:
-        print(f'\033[38;2;10;235;190mEnter the required number of days (no more than one year) or press ENTER to skip.\033[0m')
-        item_number = input('\033[38;2;10;235;190mEnter the number=> \033[0m')
-        if item_number:
-            if item_number.isdigit() and item_number <= '365':
-                # Введено число
-                item_number = int(item_number)
-                days_birth = birthday_in_given_days(item_number)
-                # print(days_birth)
+        console.print("[green]Enter the required number of days (no more than one year) or press ENTER to skip.[/green]")
+        input_number = input("Enter the number: ")
+        if input_number.isdigit():
+            days_number = int(input_number)
+            if days_number <= 365:
+                days_birth = birthday_in_given_days(days_number)
                 if days_birth:
                     for elem in days_birth:
-                        item = elem.split(';')
-                        table.add_row(item[0], item[1], item[2])
+                        name, dob, days = elem.split(';')
+                        table.add_row(name.strip(), dob.strip(), days.strip())
                     console.print(table)
                     return
-            elif item_number.isalpha():
-                # Введены буквы
-                print(f'\033[91mYou entered letters: {item_number}\033[0m')
             else:
-                # Введены буквы
-                print(f'\033[91mYou entered a mumber greater than one year: {item_number}\033[0m')
-
-        return
-
+                console.print("[red]Number is greater than one year.[/red]")
+        elif not input_number:
+            return
+        else:
+            console.print("[red]Invalid input. Please enter a number.[/red]")
 
 if __name__ == "__main__":
-    pass
-
-
-   
+    assistant_bot = AssistantBot()
