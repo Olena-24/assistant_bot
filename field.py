@@ -13,9 +13,6 @@ class Field:
     def value(self, value):
         self._value = value
 
-    def __str__(self):
-        return str(self._value)
-
 class Name(Field):
     pass
 
