@@ -1,11 +1,13 @@
 from collections import UserDict
+from record import Record, Phone, Birthday
+from serialization import JsonSerializer, PickleSerializer
 import pickle
-from record import Record
 
 class AddressBook(UserDict):
-    def __init__(self):
+    def __init__(self, serializer=PickleSerializer()):
         super().__init__()
-        self.file = 'Phone_Book.bin'
+        self.serializer = serializer
+        self.file = 'Phone_Book.bin' if isinstance(serializer, PickleSerializer) else 'Phone_Book.json'
 
     def add_record(self, record: Record):
         self.data[record.name.value] = record
@@ -72,3 +74,13 @@ class AddressBook(UserDict):
         with open(self.file, 'rb') as file:
             self.data = pickle.load(file)
         return self.data
+
+   def save(self):
+       self.serializer.serialize(self.data, self.file)
+
+    def load(self):
+        self.data = self.serializer.deserialize(self.file)
+        for name, rec in self.data.items():
+            phones = [Phone(p['value']) for p in rec['phones']]
+            birthday = Birthday(rec['birthday']['value']) if rec.get('birthday') else None
+            self.data[name] = Record(name, phones, birthday)
