@@ -110,3 +110,4 @@ def birthday_in_given_days_menu():
             console.print("[red]Invalid input. Please enter a number.[/red]")
 
 if __name__ == "__main__":
+    assistant_bot = AssistantBot()
