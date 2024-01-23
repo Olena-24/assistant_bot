@@ -10,6 +10,7 @@ from rich.console import Console
 from rich.table import Table
 from field import Name, Phone, Email, Address, Birthday
 from record import Record
+from addressbook import AddressBook
 
 new_record = Record("Contact name")
 
@@ -17,31 +18,20 @@ class Controller(cmd.Cmd):
     def exit(self):
         self.book.dump()
         return True
-
-
-# декоратор по исправлению ошибок. НАПИСАН КОРЯВО, нужно редактировать!!!
 def input_error(func):
-    def inner(*args, **kwargs):
+    def wrapper(*args, **kwargs):
         try:
-            result = func(*args, **kwargs)
-            return result
-        except KeyError:
-            return 'No user with this name'
-        except ValueError:
-            return 'Incorrect information entered'
-        except IndexError:
-            return 'Enter user name'
-    return inner
-
-
-'''эта часть кода отвечает за выполнение команд'''
+            return func(*args, **kwargs)
+        except Exception as e:
+            print(f"An error occurred: {str(e)}")
+    return wrapper
 
 
 class AssistantBot:
-    def __init__(self):
+    def __init__(self, address_book: AddressBook):
         self.console = Console()
-        self.phone_book = AddressBook()
-        if os.path.isfile(self.phone_book.file):  # запуск файла с сохранеными контактами!!!
+        self.phone_book = address_book  # Use the provided AddressBook instance
+        if os.path.isfile(self.phone_book.file):
             self.phone_book.read_from_file()
 
     # вывод в таблицу rich       
@@ -228,14 +218,19 @@ class AssistantBot:
 
     @input_error
     def edit_phone_menu(self):
-        while True:
-            record = self.find_record()
-            if not record:
-                print('\033[91mThe contact was not found.\033[0m')
-                return
-            self.console.print(self.table_print(record))
-            self.edit_phone(record)
-            return
+        name = input("Enter the contact name: ")
+        record = self.phone_book.find(name)
+
+        if record:
+            new_phone = input("Enter the new phone number=> ")
+
+            try:
+                record.edit_phone(new_phone)
+                print(f"The phone number has been updated to {new_phone}.")
+            except ValueError as e:
+                print(f"Error: {e}")
+        else:
+            print("Contact not found.")
 
     # изменение email      
     @input_error
@@ -382,29 +377,50 @@ class AssistantBot:
                 return
 
     # поиск по имени и по совпадениям
-    @input_error
-    def search(self):
-        table = Table(title="Search results", style="cyan", title_style="bold magenta", width = 100)
-        table.add_column("Name", style="red", justify="center")
-        table.add_column("Phones", style="bold blue", justify="center")
-        table.add_column("Birthday", style="bold green", justify="center")
-        table.add_column("Email", style="bold blue", justify="center")
-        table.add_column("Address", style="yellow", justify="center")
-        table.add_column("Days to birthday", style="yellow", justify="center")
-        while True:
-            print('=' * 100)
-            print(f'\033[38;2;10;235;190mEnter at least 3 letters or numbers to search or press ENTER to exit.\033[0m')
-            res = input('Enter your text=>  ').lower()
-            if res:
-                result = self.phone_book.search(res).split('\n')
+@input_error
+def search(self):
+    table = Table(title="Search results", style="cyan", title_style="bold magenta", width=100)
+    table.add_column("Name", style="red", justify="center")
+    table.add_column("Phones", style="bold blue", justify="center")
+    table.add_column("Birthday", style="bold green", justify="center")
+    table.add_column("Email", style="bold blue", justify="center")
+    table.add_column("Address", style="yellow", justify="center")
+    table.add_column("Days to birthday", style="yellow", justify="center")
+
+    while True:
+        print('=' * 100)
+        print('\033[38;2;10;235;190mEnter at least 3 letters, 3 digits, or a date (YYYY.MM.DD) to search, or press ENTER to exit.\033[0m')
+        res = input('Enter your text=>  ').lower()
+        if res:
+            if len([c for c in res if c.isalpha()]) >= 3:  # Check if at least 3 letters are in the input
+                result = []
+                for name, record in self.phone_book.data.items():
+                    name_lower = name.lower()
+                    phone_digits = "".join(filter(str.isdigit, "".join(p.value for p in record.phones)))
+                    address_lower = record.address.lower() if record.address else ""
+                    birthday = str(record.birthday) if record.birthday else ""
+
+                    if res in name_lower or res in phone_digits or res in address_lower or res == birthday:
+                        result.append(record)
+
                 if result:
-                    for item in result:
-                        record = item.split(',')
-                        table.add_row(record[0], record[1], record[2], record[3], record[4], record[5])
-                        self.console.print(table)
-                print(f'\033[38;2;10;235;190mNo matches found.\033[0m')        
+                    for record in result:
+                        phone_str = "\n".join("; ".join(p.value for p in record.phones[i:i + 2]) for i in range(0, len(record.phones), 2))
+                        table.add_row(
+                            str(record.name.value),
+                            str(phone_str),
+                            str(record.birthday),
+                            str(record.email),
+                            str(record.address),
+                            str(record.days_to_birthday())
+                        )
+                    self.console.print(table)
+                else:
+                    print(f'\033[38;2;10;235;190mNo matches found.\033[0m')
             else:
-                break
+                print('\033[38;2;10;235;190mSearch text should contain at least 3 letters.\033[0m')
+        else:
+            break
             
 
     # работа через интератор
@@ -485,3 +501,4 @@ class AssistantBot:
 
 if __name__ == "__main__":
     pass
+
