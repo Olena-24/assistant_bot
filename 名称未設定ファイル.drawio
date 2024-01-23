@@ -1,9 +1,12 @@
-<mxfile host="app.diagrams.net" modified="2024-01-23T02:08:27.336Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="94v5cHeymmFzHlc_rbuq" version="22.1.18" type="github">
+<mxfile host="app.diagrams.net" modified="2024-01-23T02:18:05.315Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="VsSFNP1mb2Y5veHg2pX5" version="22.1.18" type="github">
   <diagram name="ページ1" id="56sixpd-Q7-I2ywJQ_Ff">
     <mxGraphModel dx="1434" dy="1959" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="CZ0X2uUKR-2sS1H53aNZ-79" value="serialization.py&amp;nbsp;" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="600" y="-770" width="470" height="270" as="geometry" />
+        </mxCell>
         <mxCell id="CZ0X2uUKR-2sS1H53aNZ-51" value="field.py" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" vertex="1" parent="1">
           <mxGeometry x="30" y="-1160" width="500" height="480" as="geometry" />
         </mxCell>
@@ -122,6 +125,46 @@
         </mxCell>
         <mxCell id="CZ0X2uUKR-2sS1H53aNZ-59" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.022;entryY=0.989;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="fRxtUmQrO1Woh4yGc04h-11" target="CZ0X2uUKR-2sS1H53aNZ-25">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CZ0X2uUKR-2sS1H53aNZ-62" value="" style="endArrow=block;startArrow=block;endFill=1;startFill=1;html=1;rounded=0;entryX=0.92;entryY=1.002;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.575;exitY=-0.006;exitDx=0;exitDy=0;exitPerimeter=0;fillColor=#e51400;strokeColor=#B20000;" edge="1" parent="1" source="CZ0X2uUKR-2sS1H53aNZ-51" target="CZ0X2uUKR-2sS1H53aNZ-50">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="520" y="-870" as="sourcePoint" />
+            <mxPoint x="680" y="-870" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CZ0X2uUKR-2sS1H53aNZ-63" value="Serializer (ABC)" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="725" y="-750" width="210" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="CZ0X2uUKR-2sS1H53aNZ-64" value="+ abstract serialize(data, filename)&lt;br style=&quot;color: rgb(34, 34, 34); font-family: Arial, Helvetica, sans-serif; font-size: small; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;color: rgb(34, 34, 34); font-family: Arial, Helvetica, sans-serif; font-size: small; background-color: rgb(255, 255, 255);&quot;&gt;+ abstract deserialize(filename)&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="CZ0X2uUKR-2sS1H53aNZ-63">
+          <mxGeometry y="26" width="210" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="CZ0X2uUKR-2sS1H53aNZ-67" value="Field" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;rounded=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="184" y="-1130" width="180" height="146" as="geometry" />
+        </mxCell>
+        <mxCell id="CZ0X2uUKR-2sS1H53aNZ-68" value="- _value: str" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="CZ0X2uUKR-2sS1H53aNZ-67">
+          <mxGeometry y="26" width="180" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="CZ0X2uUKR-2sS1H53aNZ-69" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="CZ0X2uUKR-2sS1H53aNZ-67">
+          <mxGeometry y="48" width="180" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="CZ0X2uUKR-2sS1H53aNZ-70" value="+ __init__(value: str)&lt;br style=&quot;color: rgb(34, 34, 34); font-family: Arial, Helvetica, sans-serif; font-size: small; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;color: rgb(34, 34, 34); font-family: Arial, Helvetica, sans-serif; font-size: small; background-color: rgb(255, 255, 255);&quot;&gt;+ value: str (property getter)&lt;/span&gt;&lt;br style=&quot;color: rgb(34, 34, 34); font-family: Arial, Helvetica, sans-serif; font-size: small; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;color: rgb(34, 34, 34); font-family: Arial, Helvetica, sans-serif; font-size: small; background-color: rgb(255, 255, 255);&quot;&gt;+ value(value: str) (property setter)&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="CZ0X2uUKR-2sS1H53aNZ-67">
+          <mxGeometry y="56" width="180" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="CZ0X2uUKR-2sS1H53aNZ-71" value="JsonSerializer" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#6d8764;fontColor=#ffffff;strokeColor=#000033;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="607" y="-660" width="220" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="CZ0X2uUKR-2sS1H53aNZ-72" value="+ serialize(data, filename): Serializes the data to a JSON file.&lt;br style=&quot;color: rgb(34, 34, 34); font-family: Arial, Helvetica, sans-serif; font-size: small; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;color: rgb(34, 34, 34); font-family: Arial, Helvetica, sans-serif; font-size: small; background-color: rgb(255, 255, 255);&quot;&gt;+ deserialize(filename): Deserializes data from a JSON file.&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="CZ0X2uUKR-2sS1H53aNZ-71">
+          <mxGeometry y="26" width="220" height="114" as="geometry" />
+        </mxCell>
+        <mxCell id="CZ0X2uUKR-2sS1H53aNZ-75" value="PickleSerializer" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#6d8764;fontColor=#ffffff;strokeColor=#3A5431;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="855" y="-660" width="200" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="CZ0X2uUKR-2sS1H53aNZ-77" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="CZ0X2uUKR-2sS1H53aNZ-75">
+          <mxGeometry y="30" width="200" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="CZ0X2uUKR-2sS1H53aNZ-78" value="+ serialize(data, filename): Serializes the data to a binary file using pickle.&lt;br style=&quot;font-family: Arial, Helvetica, sans-serif; font-size: small; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;font-family: Arial, Helvetica, sans-serif; font-size: small; background-color: rgb(255, 255, 255);&quot;&gt;+ deserialize(filename): Deserializes data from a binary file using pickle.&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontColor=#0A0A0A;" vertex="1" parent="CZ0X2uUKR-2sS1H53aNZ-75">
+          <mxGeometry y="38" width="200" height="102" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
