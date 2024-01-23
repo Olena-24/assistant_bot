@@ -51,8 +51,10 @@ class NotesManager:
         self.write_to_file()
         return True
 
-    def search_notes_by_tag(self, tag):
-        return [note for note in self.notes if tag in note.tags]
+    def search_and_sort_notes(self, keyword):
+        found_notes = [note for note in self.notes if keyword in note.tags]
+        sorted_notes = sorted(found_notes, key=lambda x: x.tags)
+        return sorted_notes
             
     def display_all_notes(self):
         table = Table(title="Note Information", style="cyan", title_style="bold magenta", width = 100)
@@ -67,11 +69,11 @@ class NotesManager:
 
     def edit_note_content(self, tag, new_content):
         for note in self.notes:
-            if tag not in note.tags:
-                print('\033[91mInvalid note index.\033[0m')
             if tag in note.tags:
                 note.content = new_content
                 print(f'\033[92mNote update successfully.\033[0m')
+                return  # Exit the loop after updating
+        print('\033[91mInvalid tag. Note not found.\033[0m')
 
     def search_and_sort_notes(self, keyword):
         found_notes = [note for note in self.notes if keyword in note.tags]
@@ -88,9 +90,25 @@ class NotesManager:
 
     def note_add_menu(self):
         content = input('Enter your text for the note: ')
-        tags = input('Enter tags separated by commas (or press Enter if no tags): ').split(',')
+        tags_input = input('Enter tags separated by commas (or press Enter if no tags): ')
+        tags = [tag.strip() for tag in tags_input.split(',')] if tags_input else []
         self.add_note(content, tags)
         self.write_to_file()
+
+    def note_search_menu(self):
+        tag_to_search = input('Enter tag for search and sort: ')
+        sorted_notes = self.search_and_sort_notes(tag_to_search)
+        if sorted_notes:
+            print(f'\033[92mFound and Sorted Notes with Tag "{tag_to_search}":\033[0m')
+            table = Table(title="Note Information", style="cyan", title_style="bold magenta", width=100)
+            table.add_column("Content", style="bold blue", justify="center")
+            table.add_column("Tags", style="bold blue", justify="center")
+            for note in sorted_notes:
+                table.add_row(str(note.content), ', '.join(note.tags))
+            self.console.print(table)
+        else:
+            print('\033[91mNo notes found with tag "{}".\033[0m'.format(tag_to_search))
+
 
     def note_charge_menu(self):
         index = input('Enter tag of the note to edit: ')
@@ -103,19 +121,6 @@ class NotesManager:
         self.delete_note_by_index(index)
         self.write_to_file()
 
-    def note_search_menu(self):
-        table = Table(title="Note Information", style="cyan", title_style="bold magenta", width = 100)
-        table.add_column("Content", style="bold blue", justify="center")
-        table.add_column("Tags", style="bold blue", justify="center")
-        tag_to_search = input('Enter tag for search and sort: ')
-        sorted_notes = self.search_and_sort_notes(tag_to_search)
-        if sorted_notes:
-            print(f'\033[92mFound and Sorted Notes with Tag "{tag_to_search}":\033[0m')
-            for note in sorted_notes:
-                table.add_row(str(note.content), str(note.tags))
-            self.console.print(table)
-        else:
-            print('\033[91mNothing to sort!\033[0m')
 
     def note_show_menu(self):
         self.display_all_notes()
