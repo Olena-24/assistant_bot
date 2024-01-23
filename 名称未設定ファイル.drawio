@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-01-23T05:45:06.827Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="jIZ9Day5-aXYVYDtfRHC" version="22.1.18" type="github">
+<mxfile host="app.diagrams.net" modified="2024-01-23T05:49:22.704Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="p5TXtJVrkoEFih7v30lK" version="22.1.18" type="github">
   <diagram name="ページ1" id="56sixpd-Q7-I2ywJQ_Ff">
     <mxGraphModel dx="1434" dy="1959" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -185,9 +185,6 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="CZ0X2uUKR-2sS1H53aNZ-92" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.77;entryY=1.013;entryDx=0;entryDy=0;entryPerimeter=0;dashed=1;startArrow=diamond;startFill=1;" edge="1" parent="1" source="fRxtUmQrO1Woh4yGc04h-31" target="CZ0X2uUKR-2sS1H53aNZ-79">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
         <mxCell id="CZ0X2uUKR-2sS1H53aNZ-97" value="AssistantBot" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;rounded=1;" vertex="1" parent="1">
           <mxGeometry x="50" y="-260" width="350" height="520" as="geometry" />
         </mxCell>
@@ -236,14 +233,23 @@
         <mxCell id="CZ0X2uUKR-2sS1H53aNZ-127" value="+ __init__(content: str, tags: List[str])" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="CZ0X2uUKR-2sS1H53aNZ-124">
           <mxGeometry y="108" width="160" height="42" as="geometry" />
         </mxCell>
-        <mxCell id="CZ0X2uUKR-2sS1H53aNZ-136" value="MAIN.PY" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" vertex="1" parent="1">
-          <mxGeometry x="760" y="-710" width="450" height="370" as="geometry" />
+        <mxCell id="CZ0X2uUKR-2sS1H53aNZ-136" value="MAIN.PY" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;fillColor=#e6d0de;gradientColor=#d5739d;strokeColor=#996185;" vertex="1" parent="1">
+          <mxGeometry x="750" y="-690" width="370" height="280" as="geometry" />
         </mxCell>
         <mxCell id="CZ0X2uUKR-2sS1H53aNZ-137" value="functions" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="780" y="-660" width="160" height="210" as="geometry" />
         </mxCell>
         <mxCell id="CZ0X2uUKR-2sS1H53aNZ-138" value="&lt;p class=&quot;MsoNormal&quot;&gt;+start_menu()&lt;/p&gt;&lt;span style=&quot;color: rgb(34, 34, 34); font-family: Arial; background-color: initial;&quot;&gt;+f_exit()&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;color: rgb(34, 34, 34); font-family: Arial; background-color: initial;&quot;&gt;+f_add()&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;color: rgb(34, 34, 34); font-family: Arial; background-color: initial;&quot;&gt;+function_stub()&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;color: rgb(34, 34, 34); font-family: Arial; background-color: initial;&quot;&gt;+add_menu(commands_menu: dict, commands_text: str)&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;color: rgb(34, 34, 34); font-family: Arial; background-color: initial;&quot;&gt;+display_record(record: Record)&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;color: rgb(34, 34, 34); font-family: Arial; background-color: initial;&quot;&gt;+get_user_input(commands_menu: dict) -&amp;gt; str&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="CZ0X2uUKR-2sS1H53aNZ-137">
           <mxGeometry y="26" width="160" height="184" as="geometry" />
+        </mxCell>
+        <mxCell id="CZ0X2uUKR-2sS1H53aNZ-141" value="questionary" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="940" y="-509" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="CZ0X2uUKR-2sS1H53aNZ-142" value="rich" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="940" y="-609" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="CZ0X2uUKR-2sS1H53aNZ-143" value="termcolor" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="940" y="-559" width="100" height="50" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
