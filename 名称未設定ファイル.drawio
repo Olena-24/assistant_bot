@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-01-23T02:18:05.315Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="VsSFNP1mb2Y5veHg2pX5" version="22.1.18" type="github">
+<mxfile host="app.diagrams.net" modified="2024-01-23T02:22:02.861Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="I94tADr1VjHVIML0wcsC" version="22.1.18" type="github">
   <diagram name="ページ1" id="56sixpd-Q7-I2ywJQ_Ff">
     <mxGraphModel dx="1434" dy="1959" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -77,7 +77,7 @@
           <mxGeometry x="805" y="-2" width="50" height="30" as="geometry" />
         </mxCell>
         <mxCell id="fRxtUmQrO1Woh4yGc04h-30" value="Record" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#fff2cc;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;rounded=1;strokeColor=#d6b656;" parent="1" vertex="1">
-          <mxGeometry x="50" y="-580" width="430" height="280" as="geometry">
+          <mxGeometry x="50" y="-410" width="430" height="280" as="geometry">
             <mxRectangle x="280" y="-770" width="80" height="30" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
@@ -165,6 +165,12 @@
         </mxCell>
         <mxCell id="CZ0X2uUKR-2sS1H53aNZ-78" value="+ serialize(data, filename): Serializes the data to a binary file using pickle.&lt;br style=&quot;font-family: Arial, Helvetica, sans-serif; font-size: small; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span style=&quot;font-family: Arial, Helvetica, sans-serif; font-size: small; background-color: rgb(255, 255, 255);&quot;&gt;+ deserialize(filename): Deserializes data from a binary file using pickle.&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontColor=#0A0A0A;" vertex="1" parent="CZ0X2uUKR-2sS1H53aNZ-75">
           <mxGeometry y="38" width="200" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="CZ0X2uUKR-2sS1H53aNZ-83" value="" style="endArrow=block;startArrow=block;endFill=1;startFill=1;html=1;rounded=0;entryX=0;entryY=0.623;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1.007;exitY=0.668;exitDx=0;exitDy=0;exitPerimeter=0;fillColor=#a0522d;strokeColor=#6D1F00;" edge="1" parent="1" source="CZ0X2uUKR-2sS1H53aNZ-50" target="CZ0X2uUKR-2sS1H53aNZ-79">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="520" y="-770" as="sourcePoint" />
+            <mxPoint x="680" y="-770" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>
