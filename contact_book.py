@@ -30,7 +30,7 @@ def input_error(func):
 class AssistantBot:
     def __init__(self, address_book: AddressBook):
         self.console = Console()
-        self.phone_book = address_book  # Use the provided AddressBook instance
+        self.phone_book = address_book
         if os.path.isfile(self.phone_book.file):
             self.phone_book.read_from_file()
 
@@ -377,123 +377,115 @@ class AssistantBot:
                 return
 
     # поиск по имени и по совпадениям
-@input_error
-def search(self):
-    table = Table(title="Search results", style="cyan", title_style="bold magenta", width=100)
-    table.add_column("Name", style="red", justify="center")
-    table.add_column("Phones", style="bold blue", justify="center")
-    table.add_column("Birthday", style="bold green", justify="center")
-    table.add_column("Email", style="bold blue", justify="center")
-    table.add_column("Address", style="yellow", justify="center")
-    table.add_column("Days to birthday", style="yellow", justify="center")
-
-    while True:
-        print('=' * 100)
-        print('\033[38;2;10;235;190mEnter at least 3 letters, 3 digits, or a date (YYYY.MM.DD) to search, or press ENTER to exit.\033[0m')
-        res = input('Enter your text=>  ').lower()
-        if res:
-            if len([c for c in res if c.isalpha()]) >= 3:  # Check if at least 3 letters are in the input
+    @input_error
+    def search(self):
+        table = Table(title="Search results", style="cyan", title_style="bold magenta", width=100)
+        table.add_column("Name", style="red", justify="center")
+        table.add_column("Phones", style="bold blue", justify="center")
+        table.add_column("Birthday", style="bold green", justify="center")
+        table.add_column("Email", style="bold blue", justify="center")
+        table.add_column("Address", style="yellow", justify="center")
+        table.add_column("Days to birthday", style="yellow", justify="center")
+    
+        while True:
+            print('=' * 100)
+            res = input('Enter at least 3 letters, 3 digits, or a date (YYYY.MM.DD) to search, or press ENTER to exit: ').lower()
+            if res:
                 result = []
                 for name, record in self.phone_book.data.items():
                     name_lower = name.lower()
                     phone_digits = "".join(filter(str.isdigit, "".join(p.value for p in record.phones)))
-                    address_lower = record.address.lower() if record.address else ""
-                    birthday = str(record.birthday) if record.birthday else ""
+                    address_lower = str(record.address).lower() if record.address else ""
+                    birthday_str = record.birthday.value.strftime('%Y.%m.%d') if record.birthday else ""
 
-                    if res in name_lower or res in phone_digits or res in address_lower or res == birthday:
+                    if res in name_lower or res in phone_digits or res in address_lower or res == birthday_str:
                         result.append(record)
 
                 if result:
                     for record in result:
-                        phone_str = "\n".join("; ".join(p.value for p in record.phones[i:i + 2]) for i in range(0, len(record.phones), 2))
+                        phone_str = "; ".join(p.value for p in record.phones)
                         table.add_row(
                             str(record.name.value),
                             str(phone_str),
-                            str(record.birthday),
+                            birthday_str,
                             str(record.email),
                             str(record.address),
                             str(record.days_to_birthday())
                         )
                     self.console.print(table)
                 else:
-                    print(f'\033[38;2;10;235;190mNo matches found.\033[0m')
+                    print('\033[38;2;10;235;190mNo matches found.\033[0m')
             else:
-                print('\033[38;2;10;235;190mSearch text should contain at least 3 letters.\033[0m')
-        else:
-            break
+                break
+
             
 
     # работа через интератор
     def show_all(self):
+        if not self.phone_book.data:
+            print('\033[91mNo contacts.\033[0m')
+            return
+
         while True:
-            table = Table(title="Contact Information", style="cyan", title_style="bold magenta", width = 100)
+            table = Table(title="Contact Information", style="cyan", title_style="bold magenta", width=100)
             table.add_column("Name", style="red", justify="center")
             table.add_column("Phones", style="bold blue", justify="center")
             table.add_column("Birthday", style="bold green", justify="center")
             table.add_column("Email", style="bold blue", justify="center")
             table.add_column("Address", style="yellow", justify="center")
             table.add_column("Days to birthday", style="yellow", justify="center")
+
             print('=' * 100)
-            print(f'\033[38;2;10;235;190mEnter how many records to display or press ENTER to skip.\033[0m')
+            print('\033[38;2;10;235;190mEnter how many records to display or press ENTER to skip.\033[0m')
             item_number = input('Enter number=> ')
+
             if item_number.isdigit():
-                if self.phone_book :
-                    # Введено число
-                    item_number = int(item_number)
-                    metka = 0
-                    # phones = 'Contacts:\n'
-                    iteration_count = 0
-                    for name, record in self.phone_book.data.items() :
-                        phone_str = "\n".join(
-                            "; ".join(p.value for p in record.phones[i :i + 2]) for i in range(0, len(record.phones), 2))
-                        table.add_row(str(record.name.value),
-                                      str(phone_str),
-                                      str(record.birthday),
-                                      str(record.email),
-                                      str(record.address),
-                                      str(record.days_to_birthday())
-                                      )
-                        iteration_count += 1
-                        metka = 1
+                item_number = int(item_number)
+                iteration_count = 0
 
-                        if iteration_count % item_number == 0 :
-                            self.console.print(table)
-                            metka = 0
-                            table = Table(title = "Contact Information", style = "cyan", title_style = "bold magenta",
-                                          width = 100)
-                            table.add_column("Name", style = "red", justify = "center")
-                            table.add_column("Phones", style = "bold blue", justify = "center")
-                            table.add_column("Birthday", style = "bold green", justify = "center")
-                            table.add_column("Email", style = "bold blue", justify = "center")
-                            table.add_column("Address", style = "yellow", justify = "center")
-                            table.add_column("Days to birthday", style = "yellow", justify = "center")
+                for name, record in self.phone_book.data.items():
+                    phone_str = "; ".join(p.value for p in record.phones)
+                    birthday_str = record.birthday.value.strftime('%Y.%m.%d') if record.birthday else ""
+                    email_str = record.email.value if record.email else ""
+                    address_str = record.address.value if record.address else ""
 
-                    if metka == 1:
+                    table.add_row(
+                        str(record.name.value),
+                        phone_str,
+                        birthday_str,
+                        email_str,
+                        address_str,
+                        str(record.days_to_birthday())
+                    )
+
+                    iteration_count += 1
+
+                    if iteration_count >= item_number:
                         self.console.print(table)
-                    return
-                else:
-                    print(f'\033[91mNo contacts.\033[0m')
-            elif item_number.isalpha() :
-                # Введены буквы
-                print(f'You entered letters: {item_number}')
-            else :
-                if self.phone_book :
-                    for name, record in self.phone_book.data.items() :
-                        phone_str = "\n".join(
-                            "; ".join(p.value for p in record.phones[i :i + 2]) for i in range(0, len(record.phones), 2))
-                        table.add_row(str(record.name.value),
-                                      str(phone_str),
-                                      str(record.birthday),
-                                      str(record.email),
-                                      str(record.address),
-                                      str(record.days_to_birthday())
-                                      )
-                    self.console.print(table)
-                    return
-                else:
-                    print(f'\033[91mNo contacts.\033[0m')
+                        continue_input = input('Press ENTER to show more or type "exit" to return: ')
+                        if continue_input.lower() == 'exit':
+                            return
+                        else:
+                            table = Table(title="Contact Information", style="cyan", title_style="bold magenta", width=100)
+                            table.add_column("Name", style="red", justify="center")
+                            table.add_column("Phones", style="bold blue", justify="center")
+                            table.add_column("Birthday", style="bold green", justify="center")
+                            table.add_column("Email", style="bold blue", justify="center")
+                            table.add_column("Address", style="yellow", justify="center")
+                            table.add_column("Days to birthday", style="yellow", justify="center")
+                            iteration_count = 0
 
-    # выход из програмы и сохранение файла!
+                
+                if iteration_count > 0:
+                    self.console.print(table)
+
+                    break
+
+                elif item_number == "":
+                    break
+        else:
+            print('\033[91mInvalid input. Please enter a number.\033[0m')
+
     def exit(self):
         self.phone_book.write_to_file()
         return
@@ -501,4 +493,7 @@ def search(self):
 
 if __name__ == "__main__":
     pass
+
+
+
 
