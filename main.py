@@ -184,6 +184,5 @@ def start_menu():
         else:
             print('Please select a team.')
 
-    if __name__ == "__main__":
-        start_menu()
-
+if __name__ == "__main__":
+    start_menu()
