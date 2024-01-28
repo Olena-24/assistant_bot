@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "assistant-bot"
+version = "0.1.0"
+description = "Personal assistant for task organization and note-taking"
+authors = ["Maliarenko Olena"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.12"
+prompt-toolkit = "3.0.36"
+questionary = "^2.0.1"
+termcolor = "^2.4.0"
+rich = "^13.7.0"
+faker = "^22.5.1"
+tqdm = "^4.66.1"
+requests = "^2.31.0"
+googletrans = "^3.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
