@@ -4,9 +4,12 @@ from rich.console import Console
 from rich.table import Table
 from addressbook import AddressBook
 from record import Record, Phone, Birthday
+from contact_book import AssistantBot
+import os
 
-console = Console()
-assistant_bot = AssistantBot()
+
+address_book = AddressBook()  # Create an instance of AddressBook
+assistant_bot = AssistantBot(address_book) 
 
 def birthdays_for_date(day):
     date_obj = datetime.strptime(day, '%Y.%m.%d').date()
@@ -110,4 +113,5 @@ def birthday_in_given_days_menu():
             console.print("[red]Invalid input. Please enter a number.[/red]")
 
 if __name__ == "__main__":
-    assistant_bot = AssistantBot()
+    address_book = AddressBook()  # Create an instance of AddressBook
+    assistant_bot = AssistantBot(address_book)

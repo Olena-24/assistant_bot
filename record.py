@@ -1,4 +1,5 @@
-from fields import Name, Phone, Email, Address, Birthday
+
+from field import Name, Phone, Email, Address, Birthday
 from datetime import date
 
 class Record:
@@ -19,12 +20,19 @@ class Record:
         else:
             raise ValueError("Phone not found")
 
-    def edit_phone(self, old_phone, new_phone):
-        phone_to_edit = next((p for p in self.phones if p.value == old_phone), None)
-        if phone_to_edit:
-            phone_to_edit.value = new_phone
-        else:
-            raise ValueError("Phone not found")
+    def edit_phone(self, new_phone):
+        for phone in self.phones:
+            phone.value = new_phone
+        return True
+
+    def add_birthday(self, birthday):
+        self.birthday = Birthday(birthday)
+
+    def add_email(self, email):
+        self.email = Email(email)
+
+    def add_address(self, address):
+        self.address = Address(address)
 
     def days_to_birthday(self):
         if not self.birthday:

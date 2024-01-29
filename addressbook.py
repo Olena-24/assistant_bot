@@ -1,6 +1,7 @@
 from collections import UserDict
 from record import Record
 from serialization import JsonSerializer, PickleSerializer
+import pickle
 
 class AddressBook(UserDict):
     def __init__(self, serializer=PickleSerializer()):
